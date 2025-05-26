@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
+const API_BASE = import.meta.env.VITE_BACKEND_API_URL || "";
+
 const PublicRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
@@ -8,7 +10,7 @@ const PublicRoute = ({ children }) => {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("/api/auth/check/", {
+        const res = await fetch(`${API_BASE}/api/auth/check/`, {
           credentials: "include",
         });
 
@@ -31,12 +33,10 @@ const PublicRoute = ({ children }) => {
     return <div className="text-center mt-10">Loading...</div>;
   }
 
-  // If authenticated, redirect to dashboard (block login/register)
   if (authenticated) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Else allow access to public pages like login/register
   return children;
 };
 
