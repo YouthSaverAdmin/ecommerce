@@ -16,5 +16,5 @@ export default defineConfig({
       '@': '/src',
     },
   },
-  base: './', // <-- Important for static hosting SPA
+  base: '/', // <-- Important for static hosting SPA
 });
