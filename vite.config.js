@@ -2,23 +2,23 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
-// Corrected for Vercel and React Router SPA support
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  server: {
-    proxy: {
-      '/api': 'http://localhost:8000',
+export default defineConfig(({ command }) => {
+  return {
+    plugins: [react(), tailwindcss()],
+    server: {
+      // Proxy ONLY in dev mode
+      proxy: command === 'serve' ? {
+        '/api': 'http://localhost:8000', // local backend dev server
+      } : undefined,
     },
-  },
-  build: {
-    outDir: 'dist',
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
+    build: {
+      outDir: 'dist',
     },
-  },
-  // ✅ Needed to avoid 404s on reload in Vercel
-  // This line ensures client-side routing works
-  base: '/',
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
+    base: '/',
+  };
 });

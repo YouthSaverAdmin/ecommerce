@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Home = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -9,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const res = await fetch("/api/auth/check/", {
+        const res = await fetch(`${API_BASE_URL}/api/auth/check/`, {
           credentials: "include",
         });
         if (res.ok) {
